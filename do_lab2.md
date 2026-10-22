@@ -73,7 +73,7 @@ Zaimplementuj trzy warianty kolejki priorytetowej oraz wykorzystaj jedną z nich
 3. `BinaryHeapPriorityQueue<T>` — kolejka priorytetowa oparta na tablicowym kopcu binarnym.
 4. **Moduł algorytmiczny:** Implementacja **algorytmu Prima** lub **Kruskala** wykorzystująca klasę `BinaryHeapPriorityQueue<T>`.
 
-### Wymagany interfejs `PriorityQueue<T>`:
+### Wymagany interfejs `SortedDoubleListPriorityQueue<T>`:
 - `insert(T value)` — dodaje element do kolejki,
 - `delMax()` — usuwa i zwraca element o największym priorytecie (zgodnie z `Comparable`),
 - `peek()` — zwraca element o największym priorytecie bez usuwania,
