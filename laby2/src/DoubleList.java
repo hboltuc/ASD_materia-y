@@ -77,6 +77,89 @@ public class DoubleList<T> {
     }
 
 
+    public int getSize(){
+        return size;
+    }
+
+
+    public boolean isEmpty(){
+        return size == 0;
+    }
+
+
+    public T delFirst(){
+        if(head == null){
+            return null;
+        }else {
+            T delVal = head.value;
+            head = head.next;
+            if(head == null){
+                tail = null;
+            }else {
+                head.prev = null;
+            }
+            size--;
+            return delVal;
+        }
+
+
+    }
+
+
+    public void insertFirst(T val){
+        Node<T> pNew = new Node<T>(val);
+        if(head == null){
+            head = pNew;
+            tail = pNew;
+            size++;
+            return;
+        }
+        pNew.next = head;
+        head.prev = pNew;
+        head = pNew;
+        size++;
+    }
+
+
+    public T delMax(){
+        if(head == null){
+            return null;
+        }
+
+        Node<T> p = head;
+        Node<T> pMax = head;
+        while(p!= null){
+            if(compare(p.value, pMax.value) >= 0){
+                pMax = p;
+            }
+            p = p.next;
+        }
+
+        T delVal = pMax.value;
+
+        if(pMax == head){
+            delFirst();
+        }else {
+            Node<T> pp = pMax.prev;
+            Node<T> nn = pMax.next;
+
+            pp.next = nn;
+
+            if(nn != null){
+                nn.prev = pp;
+            } else {
+                tail = pp;
+            }
+
+            pMax.prev = null;
+            pMax.next = null;
+
+            size--;
+        }
+        return delVal;
+    }
+
+
 
     // UWAGA:
     // Do porównywania 2 elementów typu T należy używać konstrukcji:

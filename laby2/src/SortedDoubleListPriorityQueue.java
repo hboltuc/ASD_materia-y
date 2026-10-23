@@ -13,16 +13,16 @@ public class SortedDoubleListPriorityQueue<T extends Comparable<T>> implements P
 
     @Override
     public int size() {
-        return 0;
+        return list.getSize();
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return list.isEmpty();
     }
 
     @Override
     public T delMax() {
-        return null;
+        return list.delFirst();
     }
 }
