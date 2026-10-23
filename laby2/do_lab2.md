@@ -70,8 +70,8 @@ Zaimplementuj trzy warianty kolejki priorytetowej oraz wykorzystaj jedną z nich
 ### Do zaimplementowania:
 1. `UnsortedListPriorityQueue<T>` — kolejka priorytetowa oparta na własnej liście nieuporządkowanej.
 2. `SortedListPriorityQueue<T>` — kolejka priorytetowa oparta na własnej liście uporządkowanej.
-3. `BinaryHeapPriorityQueue<T>` — kolejka priorytetowa oparta na tablicowym kopcu binarnym.
-4. **Moduł algorytmiczny:** Implementacja **algorytmu Prima** lub **Kruskala** wykorzystująca klasę `BinaryHeapPriorityQueue<T>`.
+3. `BinaryHeap<T>` — kolejka priorytetowa oparta na tablicowym kopcu binarnym.
+4. **Moduł algorytmiczny:** Implementacja **algorytmu Prima** lub **Kruskala** wykorzystująca klasę `BinaryHeap<T>`.
 
 ### Wymagany interfejs `SortedDoubleListPriorityQueue<T>`:
 - `insert(T value)` — dodaje element do kolejki,
