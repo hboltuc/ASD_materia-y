@@ -159,6 +159,20 @@ public class DoubleList<T> {
         return delVal;
     }
 
+    public void insertLast(T val) {
+        Node<T> pNew = new Node<>(val);
+        if (head == null) {
+            head = pNew;
+            tail = pNew;
+            size++;
+            return;
+        }
+        tail.next = pNew;
+        pNew.prev = tail;
+        tail = pNew;
+        size++;
+    }
+
 
 
     // UWAGA:
