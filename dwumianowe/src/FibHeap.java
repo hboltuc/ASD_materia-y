@@ -125,25 +125,19 @@ public class FibHeap {
                 AddToEnd(t);
                 return;
             }
-            // 2) brakuje jednego z końca i drugiego w środku
+            // 2) brakuje jednego z końca (drugi w środku)
             if (t.child.prev.h == t.h - 2) {
                 t.h = t.h - 1;
                 t.mark = 1;
                 AddToEnd(t);
                 return;
             }
-            // 3) brakuje dwóch ze środka — dzieci na koniec listy korzeni (z ewentualną korektą), potem sam korzeń t
-            Node child = t.child;
-            while (child != null) {
-                Node nextChild = child.next;
-                child.next = null;
-                child.prev = child;
-                CorrectAndAddToEnd(child);
-                child = nextChild;
-            }
+            // 3) brakuje dwóch ze środka — dodajemy listę dzieci na sam koniec, a potem root
+            UnionFib(t.child);
             t.mark = 0;
             t.h = 0;
             t.child = null;
+            t.next = null;
             AddToEnd(t);
         }
     }
