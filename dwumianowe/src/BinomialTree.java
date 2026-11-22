@@ -50,16 +50,19 @@ public class BinomialTree {
         return t1;
     }
 
-    int missingH(Node t){
+    int missingH(Node t) {
         t.mark = true;
         Node p = t.child;
-        if(p.h == 1) return 0;
-        while(p.next != null){
-            if(p.next.h - p.h > 1){
-                return p.h+1;
+        if (p == null || p.h == 1) return 0; // brakuje dziecka h = 0 (również gdy było jedynym dzieckiem)
+
+        while (p.next != null) {
+            if (p.next.h - p.h > 1) {
+                return p.h + 1; // brakuje dziecka w środku listy
             }
+            p = p.next; // <-- tego brakowało
         }
-        return t.h -1;
+
+        return t.h - 1; // brakuje ostatniego dziecka
     }
 
     /*
