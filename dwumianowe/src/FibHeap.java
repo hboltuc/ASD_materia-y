@@ -134,9 +134,100 @@ public class FibHeap {
             AddToEnd(t);
         }
     }
-  
 
-    //Node DelMax()
+
+    Node DelMax() {
+        if (head == null || max == null) {
+            return null;
+        }
+
+        // 1) Usuwanie max z listy korzeni head
+        Node removedMax = max;
+
+        if (removedMax == head) {
+            if (head.next == null) {
+                head = null;
+            } else {
+                Node tail = head.prev;
+                head = head.next;
+                head.prev = tail;
+            }
+        } else if (removedMax.next == null) { // removedMax jest ogonem (tail)
+            head.prev = removedMax.prev;
+            removedMax.prev.next = null;
+        } else { // removedMax jest w środku listy
+            removedMax.prev.next = removedMax.next;
+            removedMax.next.prev = removedMax.prev;
+        }
+
+        // Dzieci usuniętego max trafiają na koniec listy korzeni z korektą h i mark
+        Node child = removedMax.child;
+        while (child != null) {
+            Node nextChild = child.next;
+            child.next = null;
+            child.prev = child;
+            CorrectAndAddToEnd(child);
+            child = nextChild;
+        }
+
+        // Wyczyszczenie wskaźników zwracanego węzła oraz zerowanie max przed pętlą
+        removedMax.child = null;
+        removedMax.next = null;
+        removedMax.prev = removedMax;
+        this.max = null;
+
+        // 2) Konsolidacja (kompresja kopca)
+        Node[] tablica = new Node[64]; // rozmiar >= log_phi(n) + 1
+
+        while (head != null) {
+            Node curr = ExtractFirst();
+            int h = curr.h;
+
+            while (tablica[h] != null) {
+                curr = mergeTree(curr, tablica[h]);
+                tablica[h] = null;
+                h = curr.h;
+            }
+            tablica[h] = curr;
+        }
+
+        // Odbudowa listy korzeni head z tablicy i wyznaczenie nowego max
+        for (int i = 0; i < tablica.length; i++) {
+            if (tablica[i] != null) {
+                AddToEnd(tablica[i]);
+                if (max == null || tablica[i].val > max.val) {
+                    max = tablica[i];
+                }
+            }
+        }
+
+        return removedMax;
+    }
+
+    private Node mergeTree(Node t1, Node t2) {
+        if (t1 == null) return t2;
+        if (t2 == null) return t1;
+
+        if (t1.val < t2.val) {
+            Node temp = t1;
+            t1 = t2;
+            t2 = temp;
+        }
+
+        t2.next = null;
+
+        if (t1.child == null) {
+            t1.child = t2;
+            t2.prev = t2;
+        } else {
+            t1.child.prev.next = t2;
+            t2.prev = t1.child.prev;
+            t1.child.prev = t2;
+        }
+
+        t1.h++;
+        return t1;
+    }
 
 
 }

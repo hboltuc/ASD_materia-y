@@ -1,5 +1,5 @@
 public class BinomialTree {
-    private static class Node {
+    public static class Node {
         int val;
         Node child;
         Node next;
@@ -24,7 +24,7 @@ public class BinomialTree {
         }
     }
 
-    Node mergeTree(Node t1, Node t2) {
+    static Node mergeTree(Node t1, Node t2) {
         if (t1 == null) return t2;
         if (t2 == null) return t1;
 

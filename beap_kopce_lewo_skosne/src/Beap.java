@@ -10,7 +10,7 @@ public class Beap {
 
     public Beap(int capacity) {
 
-        elements = new int[capacity];
+        elements = new int[capacity+1];
     }
 
     public int ij2k(int i, int j) {
@@ -87,7 +87,9 @@ public class Beap {
             if (kL + 1 <= size && elements[kL + 1] > elements[kL]) {
                 m = kL + 1;
             }
-            if (v >= elements[m]) break;
+            if (v >= elements[m]) {
+                break;
+            }
 
             elements[k] = elements[m];
             k = m;
@@ -108,11 +110,17 @@ public class Beap {
         int valMax  = elements[1];
         elements[1] = elements[size];
         size--;
-        downBeap(1);
+        if (size > 0) {
+            downBeap(1);
+        }
         return valMax;
     }
 
     public int search(int v) {
+        if(size == 0){
+            return -1;
+        }
+
         int[] ij = k2ij(size);
         int i = ij[0];
         int j = ij[1];
