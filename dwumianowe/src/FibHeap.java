@@ -37,16 +37,14 @@ public class FibHeap {
         }
 
         Node tail = this.head.prev;
-        Node tailP = p.prev;
+        Node tailP = (p.prev != null) ? p.prev : p;
 
         tail.next = p;
         p.prev = tail;
         this.head.prev = tailP;
 
-        // Jeśli p to pojedynczy węzeł (np. z insert), aktualizacja trwa O(1).
-        // Jeśli p to dłuższa lista korzeni (np. dzieci usuniętego maxa), szukamy maksimum na liście p.
         Node candidateMax = (p.next == null) ? p : findMaxInList(p);
-        if (candidateMax.val > this.max.val) {
+        if (this.max == null || candidateMax.val > this.max.val) {
             this.max = candidateMax;
         }
     }
@@ -75,14 +73,23 @@ public class FibHeap {
 
     void AddToEnd(Node t) {
         if (t == null) return;
-        if(head == null){
+        t.next = null;
+        if (head == null) {
             head = t;
+            t.prev = t;
+            if (max == null || t.val > max.val) {
+                max = t;
+            }
             return;
         }
         Node tail = head.prev;
         tail.next = t;
         head.prev = t;
         t.prev = tail;
+
+        if (max == null || t.val > max.val) {
+            max = t;
+        }
     }
 
     private Node findMaxInList(Node start) {
@@ -96,7 +103,6 @@ public class FibHeap {
     }
 
     void CorrectAndAddToEnd(Node t) {
-
         if (t.mark == 0) {
             AddToEnd(t);
             return;
@@ -126,8 +132,15 @@ public class FibHeap {
                 AddToEnd(t);
                 return;
             }
-            // 3) brakuje dwóch ze środka — dzieci na koniec listy korzeni, potem sam korzeń t
-            UnionFib(t.child);
+            // 3) brakuje dwóch ze środka — dzieci na koniec listy korzeni (z ewentualną korektą), potem sam korzeń t
+            Node child = t.child;
+            while (child != null) {
+                Node nextChild = child.next;
+                child.next = null;
+                child.prev = child;
+                CorrectAndAddToEnd(child);
+                child = nextChild;
+            }
             t.mark = 0;
             t.h = 0;
             t.child = null;
